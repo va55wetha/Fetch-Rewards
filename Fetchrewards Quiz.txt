@@ -1,0 +1,45 @@
+What are the top 5 brands by receipts scanned for most recent month?
+
+select  r.dateScanned, b.brandCode, r.id
+from brands b
+join reciepts r
+ON r[rewardsReceiptItemList].pointsPayerId = b[cpg].id
+orderby 2,1
+limit 5
+
+------------------------------------------
+When considering average spend from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+
+select rewardsRecieptStatus, Avg(totalSpent) as Avg_spend from reciepts
+having rewardsReceiptStatus ="Accepted" or rewardsReceiptStatus = 'Rejected'
+order by Avg_spend
+
+----------------------------------------------------------
+When considering total number of items purchased from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+
+select rewardsReceiptStatus, sum(purchasedItemCount) as Total
+from reciepts  
+having rewardsReceiptStatus ="Accepted" or rewardsReceiptStatus = 'Rejected'
+order by Total
+-----------------------------------------
+Which brand has the most spend among users who were created within the past 6 months?
+
+select  u.createdDate, b.brandCode, r.totalSpend, u.userId
+from brands b
+join reciepts r
+ON r[rewardsReceiptItemList].pointsPayerId = b[cpg].id
+join users u
+on userId = userId
+orderby 3,1
+limit 5
+----------------------------------------------------------
+Third: Evaluate Data Quality Issues in the Data Provided
+
+Users Data    :Missing fields like "lastLogin" field missing for some users
+Brands Ddata  :Missing fields like "categoryCode" for some brands and the fields are shuffled not in the same order, we have to rearrange them again will consume time and money
+------------------------------------------------------------
+Fourth: Communicate with Stakeholders
+ 
+I found Data quality issues by Google sheets, I found some issues but still more.
+
+
